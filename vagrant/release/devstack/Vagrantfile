@@ -66,7 +66,8 @@ openedx_releases = {
   },
 }
 openedx_releases.default = {
-  :name => "lavash-devstack", :file => "20141118-lavash-devstack.box"
+  #:name => "lavash-devstack", :file => "20141118-lavash-devstack.box"
+  :name => "lavash-devstack", :file => "bnotions-edx-001.box"
 }
 rel = ENV['OPENEDX_RELEASE']
 
@@ -74,7 +75,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Creates an edX devstack VM from an official release
   config.vm.box     = openedx_releases[rel][:name]
-  config.vm.box_url = "http://files.edx.org/vagrant-images/#{openedx_releases[rel][:file]}"
+  #config.vm.box_url = "http://files.edx.org/vagrant-images/#{openedx_releases[rel][:file]}"
+  config.vm.box_url = "http://cthulu/vagrant/#{openedx_releases[rel][:file]}"
 
   config.vm.network :private_network, ip: "192.168.33.10"
   config.vm.network :forwarded_port, guest: 8000, host: 8000
@@ -83,6 +85,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8765, host: 8765
   config.vm.network :forwarded_port, guest: 9200, host: 9200
   config.ssh.insert_key = true
+  config.ssh.forward_agent = true
 
   config.vm.synced_folder  ".", "/vagrant", disabled: true
 
